@@ -25,6 +25,8 @@ viewer.init = function(){
   
   viewer.book = book;
   
+  elm( "#tool_correction" ).addEventListener( "click", book.switchCorrection );
+  
   }catch(e){alert(e.message);}
 };
 

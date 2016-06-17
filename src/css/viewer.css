@@ -1,8 +1,39 @@
 
+@font-face{
+  src: url( '../font/MaterialIcons-Regular.woff' );
+  font-family: 'Material Icons';
+}
+
 body{
   
   color: #fff;
   background-color: #000;
+  
+}
+
+.flex{
+  display: flex;
+}
+
+.flex-stretch{
+  flex: 1 1 auto;
+}
+
+.flex-fixed{
+  flex: 0 0 auto;
+}
+
+.material-icon{
+  
+  margin: 5px;
+  
+  font-family: 'Material Icons';
+  word-wrap: normal;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
   
 }
 
@@ -31,9 +62,31 @@ body{
 
 .viewer .header .title{
   
+  overflow: hidden;
+  
   margin: 15px;
+  
   font-size: 20px;
   text-shadow: 2px 2px 5px 5px red;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  
+}
+
+.viewer .header .tools{
+  
+  font-size: 24px;
+  line-height: 55px;
+  
+}
+
+.viewer .header .tools .icon{
+  
+  margin: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   
 }
 
@@ -96,9 +149,10 @@ body{
   left: 0;
   
   opacity: 0;
-  -webkit-filter: contrast( 150% ) brightness( 150% );
   
-  transition: opacity 0.2s ease-out 0s;
+  transition: opacity 0.2s ease-out 0s,
+    -webkit-filter 0.2s ease-out 0s,
+    filter 0.2s ease-out 0s;
   
 }
 
@@ -109,4 +163,11 @@ body{
   
   opacity: 1;
   
-} 
+}
+
+.corrected .tile .layer{
+  
+  -webkit-filter: contrast( 150% ) brightness( 150% );
+  filter: contrast( 150% ) brightness( 150% );
+  
+}
