@@ -1,0 +1,112 @@
+
+body{
+  
+  color: #fff;
+  background-color: #000;
+  
+}
+
+.viewer .header{
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  
+  width: 100%;
+  height: 60px;
+  padding: 1px;
+  background-image: linear-gradient( rgba( 0,0,0,0.4 ), rgba( 0,0,0,0 ) );
+  
+  opacity: 0;
+  transition: opacity 0.3s ease-out 0s;
+  
+}
+
+.viewer .header.visible{
+  
+  opacity: 1;
+  
+}
+
+.viewer .header .title{
+  
+  margin: 15px;
+  font-size: 20px;
+  text-shadow: 2px 2px 5px 5px red;
+  
+}
+
+.viewer .content{
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  
+  width: 100vw;
+  height: 100vh;
+  
+}
+
+.viewer .content .book{
+  
+  position: absolute;
+  
+  width: 100%;
+  height: 100%;
+  
+}
+
+.viewer .content .page{
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  width: 100%;
+  height: 100%;
+  
+}
+
+.viewer .content .page .tile-container{
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  
+}
+
+.viewer .content .tile{
+  
+  position: absolute;
+  
+}
+
+.viewer .content .tile .layer{
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  opacity: 0;
+  -webkit-filter: contrast( 150% ) brightness( 150% );
+  
+  transition: opacity 0.2s ease-out 0s;
+  
+}
+
+.viewer .content .tile .layer.visible{
+  
+  width: 100%;
+  height: 100%;
+  
+  opacity: 1;
+  
+} 

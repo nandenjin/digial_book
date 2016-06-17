@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,max-scale=1,minimal-scale=1,user-scalable=0">
+    <meta name="robots" content="noindex">
+    
+    <title>ビューア</title>
+    
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/viewer.css">
+    
+  </head>
+  
+  <body>
+    
+    <main class="viewer">
+      
+      <header class="header flex visible">
+        <h1 class="title flex-stretch">第42回百粁徒歩 最終冊子「怨雨」本編</h1>
+      </header>
+      
+      <div class="content" id="viewerContent"></div>
+      
+    </main>
+    
+    <script>
+      
+      function elm( query, root ){
+        return ( root || document ).querySelector( query );
+      }
+      
+      function elmAll( query, root ){
+        return ( root || document ).querySelectorAll( query );
+      }
+      
+    </script>
+    
+    <script src="./lib/stats.min.js"></script>
+    
+    <script src="./js/vector.js"></script>
+    <script src="./js/size.js"></script>
+    <script src="./js/pointer.js"></script>
+    <script src="./js/loader.js"></script>
+    <script src="./js/pointer.js"></script>
+    <script src="./js/tile.js"></script>
+    <script src="./js/page.js"></script>
+    <script src="./js/book.js"></script>
+    <script src="./js/viewer.js"></script>
+    
+  </body>
+  
+</html>
