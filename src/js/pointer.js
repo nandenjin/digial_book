@@ -332,7 +332,7 @@ pointer.PointEvent = function( e ){
       )
     );
     
-    this.dragging = e.buttons % 2 ? false : true;
+    this.dragging = e.buttons % 2 ? true : false;
     
   }else if( e.touches ){
     
