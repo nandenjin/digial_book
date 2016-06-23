@@ -13,6 +13,8 @@ function Book(){
     page.parent = this;
     dom.appendChild( page.domElement );
     
+    setEventListeners( page );
+    
   };
   
   this.domElement = dom;
@@ -28,5 +30,35 @@ function Book(){
     }
     
   };
+  
+  //UI操作イベント
+  function handleDragEvent( e, page ){
+    
+    var center = page.center;
+    center.x += e.vector2.x / page.zoom;
+    center.y += e.vector2.y / page.zoom;
+    
+  }
+  
+  function handleZoomEvent( e, page ){
+    
+    page.zoom *= e.zoom;
+    
+  }
+  
+  function setEventListeners( page ){
+    
+    pointer.addIntelligentListeners( page.tileContainer, {
+      click: viewer.switchHeaderVisibility,
+      dragMove: function( e ){
+        handleDragEvent( e, page );
+      },
+      zoom: function( e ){
+        handleZoomEvent( e, page );
+      },
+      preventDefault: true
+    } );
+    
+  }
   
 }

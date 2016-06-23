@@ -8,6 +8,7 @@ function Page( options ){
   dom.innerHTML = "<div class='tile-container'></div>";
   
   var tileContainer = dom.querySelector( ".tile-container" );
+  this.tileContainer =tileContainer;
   
   this.setOptions = function( opts ){
     
@@ -166,8 +167,10 @@ function Page( options ){
     
   };
   
+  this.centerTarget = new Vector2();
   this.center = new Vector2();
   this.setCenterPosition = function( v ){
+    this.centerTarget = v;
     this.center = v;
     this.render();
   };
@@ -180,28 +183,6 @@ function Page( options ){
   this.setOptions( options );
   this.zoom = 1;
   
-  //UI操作イベント
-  function handleDragEvent( e ){
-    
-    var center = page.center;
-    center.x += e.vector2.x / page.zoom;
-    center.y += e.vector2.y / page.zoom;
-    
-  }
-  
-  function handleZoomEvent( e ){
-    
-    page.zoom *= e.zoom;
-    
-  }
-  
-  pointer.addIntelligentListeners( tileContainer, {
-    click: viewer.switchHeaderVisibility,
-    dragMove: handleDragEvent,
-    zoom: handleZoomEvent,
-    preventDefault: true
-  } );
-  
   ( function(){
     requestAnimationFrame( arguments.callee );
     page.flushView();
@@ -209,3 +190,4 @@ function Page( options ){
   
   
 }
+
