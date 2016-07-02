@@ -34,6 +34,10 @@ function Book(){
     
   };
   
+  this.render = function(){
+    this.currentPage.render();
+  };
+  
   //UI操作イベント
   function handleDragEvent( e ){
     

@@ -10,18 +10,31 @@ viewer.init = function(){
   try{
   var content = document.querySelector( ".content" );
   
-  var page = new Page({
-    tileLength: 9,
-    imgUrl: function( n, z ){
-      return "./content/onu0-" + n + ".jpg";
-    }
-  });
-  page.render();
+  var pages = [
+  
+    new Page({
+      tileLength: 9,
+      imgUrl: function( n, z ){
+        return "./content/onu0-" + n + ".jpg";
+      }
+    }),
+    
+    new Page({
+      tileLength: 1,
+      imgUrl: function( n, z ){
+        return "./content/onu1.jpg";
+      }
+    })
+    
+  ];
   
   var book = new Book();
-  book.addPage( page );
+  for( var i = 0; i < pages.length; i++ ){
+    book.addPage( pages[i] );
+  }
   
   content.appendChild( book.domElement );
+  book.render();
   
   viewer.book = book;
   
