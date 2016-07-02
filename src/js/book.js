@@ -39,9 +39,12 @@ function Book(){
     
     var page = book.currentPage;
     var center = page.getCenterPosition();
-    center.x += e.vector2.x / page.zoom;
-    center.y += e.vector2.y / page.zoom;
-    page.setCenterPosition( center );
+    
+    if( page.getZoom() != 1 ){
+      center.x += e.vector2.x / page.getZoom();
+      center.y += e.vector2.y / page.getZoom();
+      page.setCenterPosition( center );
+    }
     
   }
   
