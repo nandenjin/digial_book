@@ -81,8 +81,6 @@ function Page( options ){
     
   };
   
-  this.zoom = 1;
-  
   this.render = function(){
     
     var tiles = this.tiles;
@@ -153,27 +151,63 @@ function Page( options ){
     
   };
   
+  //ページタイルの位置調整
   this.flushView = function(){
     
     var defaultView = this.defaultView;
     var center = this.center;
     
-    tileContainer.style.top = defaultView.top +  "px";
-    tileContainer.style.left = defaultView.left +  "px";
+    //ページの基準位置・サイズを設定
+    //位置調整は今のところ静的CSSで対処してる
+    //tileContainer.style.top = defaultView.top +  "px";
+    //tileContainer.style.left = defaultView.left +  "px";
     tileContainer.style.width = defaultView.width + "px";
     tileContainer.style.height = defaultView.height + "px";
     
+    //パン動作の座標処理
+    this.center.x += ( this.centerTarget.x - this.center.x ) * 0.4;
+    this.center.y += ( this.centerTarget.y - this.center.y ) * 0.4;
+    
+    //アニメーションズームの処理
+    this.zoom += ( this.zoomTarget - this.zoom ) * 0.6;
+    
+    //ズームなどユーザー操作による位置調整（transform）
     tileContainer.style.transform = "scale( " + this.zoom + " ) translate( " + center.x + "px, " + center.y + "px )";
     
   };
   
   this.centerTarget = new Vector2();
   this.center = new Vector2();
-  this.setCenterPosition = function( v ){
-    this.centerTarget = v;
-    this.center = v;
-    this.render();
+  
+  this.getCenterPosition = function(){
+    return this.centerTarget.clone();
   };
+  
+  this.setCenterPosition = function( v ){
+    this.centerTarget = v.clone();
+    this.center = v.clone();
+    //this.render();
+  };
+  
+  this.panCenterPosition = function( v ){
+    this.centerTarget = v.clone();
+  };
+  
+  this.zoom = 1;
+  this.zoomTarget = 1;
+  
+  this.getZoom = function(){
+    return this.zoomTarget;
+  };
+  
+  this.setZoom = function( z ){
+    this.zoom = z;
+    this.zoomTarget = z;
+  };
+  
+  this.animateZoom = function( z ){
+    this.zoomTarget = z; 
+  }
   
   setTimeout( ( function( page ){
     return function(){
@@ -190,4 +224,3 @@ function Page( options ){
   
   
 }
-

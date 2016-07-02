@@ -1,11 +1,14 @@
 
 function Book(){
   
+  var book = this;
+  
   var dom = document.createElement( "div" );
   dom.className = "book";
   
   this.id = "";
   this.pages = [];
+  this.currentPage = null;
   
   this.addPage = function( page ){
     
@@ -13,7 +16,7 @@ function Book(){
     page.parent = this;
     dom.appendChild( page.domElement );
     
-    setEventListeners( page );
+    this.currentPage = page;
     
   };
   
@@ -32,33 +35,50 @@ function Book(){
   };
   
   //UI操作イベント
-  function handleDragEvent( e, page ){
+  function handleDragEvent( e ){
     
-    var center = page.center;
+    var page = book.currentPage;
+    var center = page.getCenterPosition();
     center.x += e.vector2.x / page.zoom;
     center.y += e.vector2.y / page.zoom;
+    page.setCenterPosition( center );
     
   }
   
-  function handleZoomEvent( e, page ){
+  function handleDoubleClickEvent( e ){
     
-    page.zoom *= e.zoom;
+    var page = book.currentPage;
+    
+    //ズームと移動を解除する
+    if( page.getZoom() != 1 ){
+      page.panCenterPosition( new Vector2( 0, 0 ) );
+      page.animateZoom( 1 );
+    //ダブルタップ位置にズームする
+    }else{
+      page.panCenterPosition(
+        new Vector2(
+          window.innerWidth / 2 - e.x,
+          window.innerHeight / 2 - e.y
+        )
+      );
+      page.animateZoom( 2 );
+    }
     
   }
   
-  function setEventListeners( page ){
+  function handleZoomEvent( e ){
     
-    pointer.addIntelligentListeners( page.tileContainer, {
-      click: viewer.switchHeaderVisibility,
-      dragMove: function( e ){
-        handleDragEvent( e, page );
-      },
-      zoom: function( e ){
-        handleZoomEvent( e, page );
-      },
-      preventDefault: true
-    } );
+    var page = book.currentPage;
+    page.setZoom( page.getZoom() * e.zoom );
     
   }
+  
+  pointer.addIntelligentListeners( dom, {
+    click: viewer.switchHeaderVisibility,
+    doubleClick: handleDoubleClickEvent,
+    dragMove: handleDragEvent,
+    zoom: handleZoomEvent,
+    preventDefault: true
+  } );
   
 }
