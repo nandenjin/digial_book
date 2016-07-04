@@ -1,24 +1,28 @@
 
-function Book(){
+function Book( options ){
   
   var book = this;
+  options = options || {};
   
   var dom = document.createElement( "div" );
   dom.className = "book";
   
   this.id = "";
-  this.pages = [];
+  this.currentPageIndex = -1;
   this.currentPage = null;
   
-  this.addPage = function( page ){
-    
-    this.pages.push( page );
-    page.parent = this;
-    dom.appendChild( page.domElement );
-    
-    this.currentPage = page;
-    
-  };
+  var pages =  options.pages || [];
+  for( var i = pages.length - 1; 0 <= i; i-- ){
+    dom.appendChild( pages[i].domElement )
+    pages[i].parent = book;
+  }
+  
+  if( pages[0] ){
+    this.currentPageIndex = 0;
+    this.currentPage = pages[0];
+  }
+  
+  this.pages = pages;
   
   this.domElement = dom;
   
@@ -44,10 +48,15 @@ function Book(){
     var page = book.currentPage;
     var center = page.getCenterPosition();
     
+    //ページズームされているときは移動
     if( page.getZoom() != 1 ){
       center.x += e.vector2.x / page.getZoom();
       center.y += e.vector2.y / page.getZoom();
       page.setCenterPosition( center );
+      
+    //そうでないときはページめくり
+    }else{
+      
     }
     
   }

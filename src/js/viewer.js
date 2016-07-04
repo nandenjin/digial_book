@@ -28,10 +28,9 @@ viewer.init = function(){
     
   ];
   
-  var book = new Book();
-  for( var i = 0; i < pages.length; i++ ){
-    book.addPage( pages[i] );
-  }
+  var book = new Book( {
+    pages: pages
+  } );
   
   content.appendChild( book.domElement );
   book.render();
