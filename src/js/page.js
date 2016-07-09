@@ -174,6 +174,10 @@ function Page( options ){
     //ズームなどユーザー操作による位置調整（transform）
     tileContainer.style.transform = "scale( " + this.zoom + " ) translate( " + center.x + "px, " + center.y + "px )";
     
+    //ページめくりアニメーション
+    dom.style.transform = "translateX( " + ( -window.innerWidth * turnX ) + "px )";
+    dom.style.opacity = ( 1 - turnX ) * 0.5 + 0.5;
+    
   };
   
   this.centerTarget = new Vector2();
@@ -207,7 +211,13 @@ function Page( options ){
   
   this.animateZoom = function( z ){
     this.zoomTarget = z; 
-  }
+  };
+  
+  var turnX = 0;
+  
+  this.setTurn = function( x ){
+    turnX = Math.max( Math.min( x, 1 ), 0 );
+  };
   
   setTimeout( ( function( page ){
     return function(){

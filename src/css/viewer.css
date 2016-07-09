@@ -37,6 +37,12 @@ body{
   
 }
 
+.viewer{
+  
+  transform: matrix3d( 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 );
+  
+}
+
 .viewer .header{
   
   position: fixed;
@@ -139,6 +145,7 @@ body{
 .viewer .content .tile{
   
   position: absolute;
+  background: #444;
   
 }
 
