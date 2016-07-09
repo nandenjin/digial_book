@@ -103,8 +103,12 @@ pointer.addIntelligentListeners = function( target, options ){
         
       }
       
+    }
+    
+    if( e.points.length >= 1 ){
+      ( options.zoomEnd || function(){} )();
     }else{
-      
+      ( options.dragEnd || function(){} )();
     }
     
     evtTime.end = nowTime;
@@ -378,4 +382,3 @@ pointer.ZoomEvent = function( zoom, center ){
   this.center = center;
   
 }
-
