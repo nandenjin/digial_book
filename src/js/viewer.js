@@ -24,6 +24,13 @@ viewer.init = function(){
       imgUrl: function( n, z ){
         return "./content/onu1.jpg";
       }
+    }),
+    
+    new Page({
+      tileLength: 1,
+      imgUrl: function( n, z ){
+        return "./content/onu2.jpg";
+      }
     })
     
   ];

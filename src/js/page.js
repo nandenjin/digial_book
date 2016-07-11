@@ -224,6 +224,7 @@ function Page( options ){
   var visibility = false;
   this.setVisibility = function( v ){
     visibility = v;
+    this.refreshSpaceSize();
   };
   
   setTimeout( ( function( page ){

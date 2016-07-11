@@ -10,6 +10,7 @@ function Book( options ){
   this.id = "";
   this.currentPageIndex = -1;
   this.currentPage = null;
+  this.nextPage = null;
   
   var pages =  options.pages || [];
   for( var i = pages.length - 1; 0 <= i; i-- ){
@@ -48,6 +49,12 @@ function Book( options ){
     this.currentPage = pages[i];
     setTurn( 0 );
     
+    if( i + 1 <= pages.length - 1 ){
+      this.nextPage = pages[ i + 1 ];
+    }else{
+      this.nextPage = null;
+    }
+    
     for( var j = 0; j < pages.length; j++ ){
       
       var page = pages[j];
@@ -55,10 +62,10 @@ function Book( options ){
       if( j < i ){
         page.setTurn( 1 );
       }else if( j > i ){
-        page.setTurn( 0 );
+        page.setTurn( -1 );
       }
       
-      if( j == i || j == i + 1 ){
+      if( i - 1 <= j && j <= i + 1 ){
         page.setVisibility( true );
       }else{
         page.setVisibility( false );
@@ -219,6 +226,10 @@ function Book( options ){
     var page = book.currentPage;
     page.setTurn( turnX );
     
+    if( book.nextPage ){
+      book.nextPage.setTurn( turnX - 1 );
+    }
+    
   }
   
   
@@ -226,10 +237,12 @@ function Book( options ){
   function animate(){
     
     animatePageTurn();
-    document.querySelector( ".header .title" ).innerHTML = book.currentPageIndex + " " + turnX;
+    //document.querySelector( ".header .title" ).innerHTML = book.currentPageIndex + " " + turnX;
   }
   
   setInterval( animate, 1000 / 60 );
+  
+  
   
   //最初のページをセット
   if( pages[0] ){
