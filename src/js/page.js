@@ -178,6 +178,8 @@ function Page( options ){
     dom.style.transform = "translateX( " + ( -window.innerWidth * turnX ) + "px )";
     dom.style.opacity = ( 1 - turnX ) * 0.5 + 0.5;
     
+    dom.style.display = visibility ? "block" : "none";
+    
   };
   
   this.centerTarget = new Vector2();
@@ -216,7 +218,12 @@ function Page( options ){
   var turnX = 0;
   
   this.setTurn = function( x ){
-    turnX = Math.max( Math.min( x, 1 ), 0 );
+    turnX = x;
+  };
+  
+  var visibility = false;
+  this.setVisibility = function( v ){
+    visibility = v;
   };
   
   setTimeout( ( function( page ){

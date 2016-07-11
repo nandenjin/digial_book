@@ -13,9 +13,9 @@ viewer.init = function(){
   var pages = [
   
     new Page({
-      tileLength: 9,
+      tileLength: 1,
       imgUrl: function( n, z ){
-        return "./content/onu0-" + n + ".jpg";
+        return "./content/onu0.jpg";
       }
     }),
     

@@ -40,7 +40,7 @@ function Book( options ){
   //ページを指定
   this.setPageIndex = function( i ){
     
-    if( i < 0 || i > pages.length || pages.length < 1 ){
+    if( i < 0 || i > pages.length - 1 || pages.length < 1 ){
       return false;
     }
     
@@ -54,8 +54,14 @@ function Book( options ){
       
       if( j < i ){
         page.setTurn( 1 );
-      }else{
+      }else if( j > i ){
         page.setTurn( 0 );
+      }
+      
+      if( j == i || j == i + 1 ){
+        page.setVisibility( true );
+      }else{
+        page.setVisibility( false );
       }
       
       if( j > i - 2 && j < i + 2 ){
@@ -63,6 +69,8 @@ function Book( options ){
       }
       
     }
+    
+    return true;
     
   };
   
@@ -77,8 +85,6 @@ function Book( options ){
   //UI操作イベント
   function handleDragEvent( e ){
     
-    isInTurnMotion = true;
-    
     var page = book.currentPage;
     var center = page.getCenterPosition();
     
@@ -90,8 +96,17 @@ function Book( options ){
       
     //そうでないときはページめくり
     }else{
+    
+      isInTurnMotion = true;
+      turnX += -e.vector2.x / window.innerWidth;
       
-      setTurnBy( -e.vector2.x / window.innerWidth );
+      if( turnX < 0 ){
+        if( book.setPageIndex( book.currentPageIndex - 1 ) ){
+          setTurn( 1 );
+        }
+      }else if( turnX > 0 ){
+        
+      }
       
     }
     
@@ -110,6 +125,13 @@ function Book( options ){
     }else if( turnX > 0.5 ){
       turnXTarget = 1;
     }else{
+      turnXTarget = 0;
+    }
+    
+    //存在しないページへの移動は逆回しでキャンセル
+    if( turnXTarget == 1 && book.currentPageIndex + 1 > pages.length - 1 ){
+      turnXTarget = 0;
+    }else if( turnXTarget == 0 && book.currentPageIndex - 1 < 0 ){
       turnXTarget = 0;
     }
     
@@ -138,6 +160,10 @@ function Book( options ){
   
   function handleZoomEvent( e ){
     
+    //ページめくりの動作をキャンセル
+    isInTurnMotion = false;
+    setTurn( 0 );
+    
     var page = book.currentPage;
     page.setZoom( page.getZoom() * e.zoom );
     
@@ -164,28 +190,33 @@ function Book( options ){
     
   }
   
-  function setTurnBy( x ){
-    
-    turnX += x;
-    
-    turnX = Math.min( 1, Math.max( 0, turnX ) );
-    
-  }
-  
   function animatePageTurn(){
-    
-    var page = book.currentPage;
     
     if( !isInTurnMotion ){
       
+      var d = turnXTarget - turnX;
+      
+      //移動目標位置に向かってアニメーション
       if( turnX > turnXTarget ){
-        setTurnBy( -0.1 );
+        turnX -= 0.1;
       }else if( turnX < turnXTarget ){
-        setTurnBy( 0.1 );
+        turnX += 0.1;
+      }
+      
+      if( turnX >= 1 && turnXTarget == 1 ){
+        if( book.setPageIndex( book.currentPageIndex + 1 ) ){
+          setTurn( 0 );
+        }
+      }
+      
+      //移動の結果、目標点を超えたら目標点に補正する
+      if( d * ( turnXTarget - turnX ) < 0 ){
+        turnX = turnXTarget;
       }
       
     }
     
+    var page = book.currentPage;
     page.setTurn( turnX );
     
   }
@@ -195,7 +226,7 @@ function Book( options ){
   function animate(){
     
     animatePageTurn();
-    
+    document.querySelector( ".header .title" ).innerHTML = book.currentPageIndex + " " + turnX;
   }
   
   setInterval( animate, 1000 / 60 );
