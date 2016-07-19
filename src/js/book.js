@@ -242,7 +242,24 @@ function Book( options ){
   
   setInterval( animate, 1000 / 60 );
   
+  //画面のリフレッシュレートに合わせてページのDOMを更新
+  function refreshPageView(){
+    
+    requestAnimationFrame( refreshPageView );
+    
+    var currentIndex = book.currentPageIndex;
+    
+    for( var i = 0; i < pages.length; i++ ){
+      
+      if( currentIndex <= i && i <= currentIndex + 1 ){
+        pages[i].flushView();
+      }
+      
+    }
+    
+  }
   
+  requestAnimationFrame( refreshPageView );
   
   //最初のページをセット
   if( pages[0] ){

@@ -77,6 +77,7 @@ function Tile( options ){
           
         } );
         img.src = window.URL.createObjectURL( b );
+        //img.src = url;
         
       } );
     

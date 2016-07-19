@@ -172,10 +172,10 @@ function Page( options ){
     this.zoom += ( this.zoomTarget - this.zoom ) * 0.6;
     
     //ズームなどユーザー操作による位置調整（transform）
-    tileContainer.style.transform = "scale( " + this.zoom + " ) translate( " + center.x + "px, " + center.y + "px )";
+    tileContainer.style.transform = "scale( " + this.zoom + " ) translate3d( " + center.x + "px, " + center.y + "px, 0 )";
     
     //ページめくりアニメーション
-    dom.style.transform = "translateX( " + ( -window.innerWidth * turnX ) + "px )";
+    dom.style.transform = "translate3d( " + ( -window.innerWidth * turnX ) + "px, 0, 0 )";
     dom.style.opacity = ( 1 - turnX ) * 0.5 + 0.5;
     
     dom.style.display = visibility ? "block" : "none";
@@ -234,11 +234,5 @@ function Page( options ){
   } )( this ), 1 );
   this.setOptions( options );
   this.zoom = 1;
-  
-  ( function(){
-    requestAnimationFrame( arguments.callee );
-    page.flushView();
-  } )();
-  
   
 }
